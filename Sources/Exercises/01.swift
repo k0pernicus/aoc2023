@@ -62,7 +62,9 @@ class Day01 : Day {
                 }
             }
             for (_, of) in pattern_to_replace.sorted(by: { $0.0 < $1.0 }) {
-                line = line.replaceFirstExpression(of: of, with: correspondances[of]!)
+                if let line_with_replacement = line.replaceFirstExpression(of: of, with: correspondances[of]!) {
+                    line = line_with_replacement
+                }
             }
             // Count
             for char in line {

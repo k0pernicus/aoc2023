@@ -8,9 +8,11 @@
 import Foundation
 
 extension String {
-    public func replaceFirstExpression(of pattern: String, with replacement: String) -> String {
-        if let range = self.range(of: pattern){ return self.replacingCharacters(in: range, with: replacement)}
-        else { return self }
+    public func replaceFirstExpression(of pattern: String, with replacement: String) -> String? {
+        if let range = self.range(of: pattern){
+            return self.replacingCharacters(in: range, with: replacement)
+        }
+        return nil
     }
     
     public func indices(of: String) -> [Int] {
