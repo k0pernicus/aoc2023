@@ -18,16 +18,8 @@ class Day12 : Day {
         self.tag = tag
     }
     
-    func part01(fromFile: String) throws -> Output01 {
-        return 1
-    }
-    
     internal func part01(fromContent: String) throws -> Output01 {
         return 2
-    }
-    
-    func part02(fromFile: String) throws -> Output02 {
-        return 0.1
     }
     
     internal func part02(fromContent: String) throws -> Output02 {
