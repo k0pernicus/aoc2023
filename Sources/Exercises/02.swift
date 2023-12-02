@@ -18,11 +18,6 @@ class Day02 : Day {
         self.tag = tag
     }
     
-    internal func part01(fromFile filepath: String) throws -> Output01 {
-        let fileContent = try String(contentsOfFile: filepath, encoding: .utf8)
-        return try part01(fromContent: fileContent)
-    }
-    
     internal func part01(fromContent: String) throws -> Output01 {
         // Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
         let limit = [14, 13, 12] // B, G, R
@@ -58,11 +53,6 @@ class Day02 : Day {
             if (valid_subgame) { ok_games += (game_id + 1) }
         }
         return ok_games
-    }
-    
-    internal func part02(fromFile filepath: String) throws -> Output02 {
-        let fileContent = try String(contentsOfFile: filepath, encoding: .utf8)
-        return try part02(fromContent: fileContent)
     }
     
     internal func part02(fromContent: String) throws -> Output02 {

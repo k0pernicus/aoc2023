@@ -25,10 +25,12 @@ public protocol Day {
 }
 
 extension Day {
-    public func part01(fromFile: String) throws -> Output01 {
-        fatalError("part01 function of day \(self.tag) has not been implemented")
+    public func part01(fromFile filepath: String) throws -> Output01 {
+        let fileContent = try String(contentsOfFile: filepath, encoding: .utf8)
+        return try part01(fromContent: fileContent)
     }
-    public func part02(fromFile: String) throws -> Output02 {
-        fatalError("part02 function of day \(self.tag) has not been implemented")
+    public func part02(fromFile filepath: String) throws -> Output02 {
+        let fileContent = try String(contentsOfFile: filepath, encoding: .utf8)
+        return try part02(fromContent: fileContent)
     }
 }

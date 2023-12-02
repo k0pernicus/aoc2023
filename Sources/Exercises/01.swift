@@ -18,12 +18,7 @@ class Day01 : Day {
         self.tag = tag
     }
     
-    func part01(fromFile filepath: String) throws -> Output01 {
-        let fileContent = try String(contentsOfFile: filepath, encoding: .utf8)
-        return try part01(fromContent: fileContent)
-    }
-    
-    func part01(fromContent content: String) throws -> Output01 {
+    internal func part01(fromContent content: String) throws -> Output01 {
         let input = content.components(separatedBy: .newlines)
         var sum: Int = 0
         for line in input {
@@ -40,12 +35,7 @@ class Day01 : Day {
         return sum
     }
     
-    func part02(fromFile filepath: String) throws -> Output02 {
-        let fileContent = try String(contentsOfFile: filepath, encoding: .utf8)
-        return try part02(fromContent: fileContent)
-    }
-    
-    func part02(fromContent content: String) throws -> Output02 {
+    internal func part02(fromContent content: String) throws -> Output02 {
         let input = content.components(separatedBy: .newlines)
         let correspondances: [String: String] = [
             "one" : "o1e",
