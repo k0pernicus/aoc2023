@@ -1,5 +1,5 @@
 //
-//  Day01Tests.swift
+//  Days.swift
 //
 //
 //  Created by antonin on 01/12/2023.
@@ -14,4 +14,12 @@ final class D01Tests: XCTestCase, TestProtocol {
     typealias Output02 = Int
     func testPart01() { part01(filename: "\(day.tag)_01", expected_result: 142) }
     func testPart02() { part02(filename: "\(day.tag)_02", expected_result: 281) }
+}
+
+final class D02Tests: XCTestCase, TestProtocol {
+    var day: any Day = Day02()
+    typealias Output01 = Int
+    typealias Output02 = Int
+    func testPart01() { part01(filename: "\(day.tag)", expected_result: 8) }
+    func testPart02() { part02(filename: "\(day.tag)", expected_result: 2286) }
 }
