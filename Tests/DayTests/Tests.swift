@@ -8,6 +8,36 @@
 @testable import aoc2023
 import XCTest
 
+final class CoordinateTests: XCTestCase {
+    func testGenerateCoordinatesWithoutLimit() {
+        let coordinates = generatePossibleCoordinates(coordinate: Coordinate(x: 1, y: 1), maxHeight: 10, maxWidth: 10)
+        XCTAssert(coordinates.count == 8)
+        XCTAssert(Set(coordinates) == Set([
+            Coordinate(x: 0, y: 0),
+            Coordinate(x: 1, y: 0),
+            Coordinate(x: 0, y: 1),
+            Coordinate(x: 2, y: 0),
+            Coordinate(x: 0, y: 2),
+            Coordinate(x: 2, y: 1),
+            Coordinate(x: 2, y: 2),
+            Coordinate(x: 1, y: 2),
+        ]))
+    }
+    func testGenerateCoordinatesWithLimit() {
+        let coordinates = generatePossibleCoordinates(coordinate: Coordinate(x: 1, y: 1), maxHeight: 1, maxWidth: 1)
+        XCTAssert(coordinates.count == 3)
+        XCTAssert(Set(coordinates) == Set([
+            Coordinate(x: 0, y: 0),
+            Coordinate(x: 1, y: 0),
+            Coordinate(x: 0, y: 1)
+        ]))
+    }
+    func testGenerateCoordinatesNoExpend() {
+        let coordinates = generatePossibleCoordinates(coordinate: Coordinate(x: 0, y: 0), maxHeight: 1, maxWidth: 1)
+        XCTAssert(coordinates.count == 0)
+    }
+}
+
 final class D01Tests: XCTestCase, TestProtocol {
     var day: any Day = Day01()
     typealias Output01 = Int
@@ -22,4 +52,12 @@ final class D02Tests: XCTestCase, TestProtocol {
     typealias Output02 = Int
     func testPart01() { part01(filename: "\(day.tag)", expected_result: 8) }
     func testPart02() { part02(filename: "\(day.tag)", expected_result: 2286) }
+}
+
+final class D03Tests: XCTestCase, TestProtocol {
+    var day: any Day = Day03(tag: "03")
+    typealias Output01 = Int
+    typealias Output02 = Int
+    func testPart01() { part01(filename: "\(day.tag)", expected_result: 4361) }
+    func testPart02() { part02(filename: "\(day.tag)", expected_result: 467835) }
 }

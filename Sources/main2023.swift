@@ -25,8 +25,9 @@ struct Program: ParsableCommand {
     mutating func run() throws {
         // Register the exercises
         let days: [any Day] = [
-            Day01(),
-            Day02()
+            Day01(tag: "01"),
+            Day02(tag: "02"),
+            Day03(tag: "03")
         ]
         
         guard let filepath = inputFile else {
