@@ -22,6 +22,7 @@ class Day03 : Day {
         let modifiedContent = fromContent.replacingOccurrences(of: ".", with: " ")
         let lines = modifiedContent.components(separatedBy: .newlines)
         let (maxHeight, maxWidth): (Int, Int) = (lines.count, lines[0].count)
+        var mapScan: [Coordinate: Bool] = [:]
         for (yIndex, line) in lines.enumerated() {
             if line.isEmpty { continue }
             var startIndexNumber: Int? = nil
@@ -35,11 +36,12 @@ class Day03 : Day {
                                                                   maxHeight: maxHeight - 1, // Take care at the whiteline at the end of the file
                                                                   maxWidth: maxWidth)
                     for coordinate in coordinates {
-                        let (x, y) = (coordinate.x, coordinate.y)
-                        let symbolIndex = lines[y].index(line.startIndex, offsetBy: x)
-                        if !(lines[y][symbolIndex].isWhitespace || lines[y][symbolIndex].isNewline || lines[y][symbolIndex].isNumber) {
-                            validNumber = true
+                        if mapScan[coordinate] == nil {
+                            let (x, y) = (coordinate.x, coordinate.y)
+                            let symbolIndex = lines[y].index(line.startIndex, offsetBy: x)
+                            mapScan[coordinate] = !(lines[y][symbolIndex].isWhitespace || lines[y][symbolIndex].isNewline || lines[y][symbolIndex].isNumber)
                         }
+                        validNumber = validNumber || mapScan[coordinate]!
                     }
                     continue
                 }
