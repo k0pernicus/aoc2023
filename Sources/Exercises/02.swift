@@ -14,9 +14,7 @@ class Day02 : Day {
     
     internal var tag = "02"
     
-    init(tag: String = "02") {
-        self.tag = tag
-    }
+    init() {}
     
     internal func part01(fromContent: String) throws -> Output01 {
         // Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green

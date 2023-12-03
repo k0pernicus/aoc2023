@@ -14,9 +14,7 @@ class Day03 : Day {
     
     internal var tag = "03"
     
-    init(tag: String) {
-        self.tag = tag
-    }
+    init() {}
     
     internal func part01(fromContent: String) throws -> Output01 {
         var ans = 0
@@ -34,7 +32,7 @@ class Day03 : Day {
                     if (validNumber) { continue }
                     // Look for any symbol
                     let coordinates = generatePossibleCoordinates(coordinate: Coordinate(x: xIndex, y: yIndex),
-                                                                  maxHeight: maxHeight - 1,
+                                                                  maxHeight: maxHeight - 1, // Take care at the whiteline at the end of the file
                                                                   maxWidth: maxWidth)
                     for coordinate in coordinates {
                         let (x, y) = (coordinate.x, coordinate.y)
@@ -78,12 +76,11 @@ class Day03 : Day {
                     if (foundGear != nil) { continue }
                     // Look for any symbol
                     let coordinates = generatePossibleCoordinates(coordinate: Coordinate(x: xIndex, y: yIndex),
-                                                                  maxHeight: maxHeight - 1,
+                                                                  maxHeight: maxHeight - 1, // Take care at the whiteline at the end of the file
                                                                   maxWidth: maxWidth)
                     for coordinate in coordinates {
                         let (x, y) = (coordinate.x, coordinate.y)
-                        let symbolIndex = lines[y].index(line.startIndex, offsetBy: x)
-                        if (lines[y][symbolIndex] == "*") { foundGear = coordinate }
+                        if (lines[y].characterAt(at: x) == "*") { foundGear = coordinate }
                     }
                     continue
                 }

@@ -33,6 +33,11 @@ extension String {
             return indices
     }
     
+    public func characterAt(at: Int) -> Character {
+        let symbolIndex = self.index(self.startIndex, offsetBy: at)
+        return self[symbolIndex]
+    }
+    
     public func index(from: Int) -> Index {
         return self.index(startIndex, offsetBy: from)
     }

@@ -14,9 +14,7 @@ class Day05 : Day {
     
     internal var tag = "05"
     
-    init(tag: String = "01") {
-        self.tag = tag
-    }
+    init() {}
     
     internal func part01(fromContent: String) throws -> Output01 {
         return 2

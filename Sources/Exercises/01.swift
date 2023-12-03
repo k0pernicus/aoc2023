@@ -14,9 +14,7 @@ class Day01 : Day {
     
     internal var tag = "01"
     
-    init(tag: String = "01") {
-        self.tag = tag
-    }
+    init() {}
     
     internal func part01(fromContent content: String) throws -> Output01 {
         let input = content.components(separatedBy: .newlines)
