@@ -74,16 +74,19 @@ class Day05 : Day {
     
     internal func part02(fromContent: String) throws -> Output02 {
         let (seeds, maps) = parseInput(input: fromContent.components(separatedBy: .newlines))
+        let orderedMaps = maps.map { $0.keys.sorted() }
         var lowestMapParcel: Int? = nil
+        var done: [Int: Bool] = [:] // It can happen that multiple values can be computed multiple times
         for i in 0..<seeds.count {
             if (i % 2 == 0) {
                 let beg = seeds[i]
                 let end = seeds[i+1]
                 for seed in beg..<(beg+end) {
+                    if done[seed] != nil { continue }
+                    done[seed] = true
                     var destinationSeed = seed
-                    for map in maps {
-                        let sortedKeys = map.keys.sorted()
-                        for key in sortedKeys {
+                    for (mapIndex, map) in maps.enumerated() {
+                        for key in orderedMaps[mapIndex] {
                             if key > destinationSeed { break }
                             if key <= destinationSeed && (key + map[key]!.range - 1) >= destinationSeed {
                                 destinationSeed = map[key]!.destination + (destinationSeed - key)
