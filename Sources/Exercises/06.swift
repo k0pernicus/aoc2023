@@ -77,13 +77,11 @@ class Day06 : Day {
         var prevValues: (Int, Int) = (0, 0)
         while true {
             let result = (time - beg) * beg
-            if (prevValues.1 > result) { break }
-            if (prevValues.1 > result) && (beg < distance) { break }
+            if (prevValues.1 > result) { break } // Early return
             else if result > distance { prevValues.0 += 1 }
-            beg += 1
-            prevValues.1 = result
+            beg += 1; prevValues.1 = result
         }
         
-        return prevValues.0 * 2 - 1
+        return prevValues.0 * 2 - 1 // Function "bell"
     }
 }
