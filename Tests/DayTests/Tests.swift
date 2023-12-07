@@ -55,3 +55,12 @@ final class D06Tests: XCTestCase, TestProtocol {
     func testPart01() { part01(filename: "\(day.tag)", expected_result: 288) }
     func testPart02() { part02(filename: "\(day.tag)", expected_result: 71503) }
 }
+
+final class D07Tests: XCTestCase, TestProtocol {
+    var day: any Day = Day07()
+    typealias Output01 = Int
+    typealias Output02 = Int
+    func testTag() { let t1: Tag = Tag(rawValue: "3A333"); let t2: Tag = Tag(rawValue: "33733"); XCTAssert(t1 < t2) }
+    func testPart01() { part01(filename: "\(day.tag)", expected_result: 6440) }
+    func testPart02() { part02(filename: "\(day.tag)", expected_result: 5905) }
+}
