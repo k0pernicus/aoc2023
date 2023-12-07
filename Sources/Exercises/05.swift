@@ -48,27 +48,20 @@ class Day05 : Day {
         let (seeds, maps) = parseInput(input: fromContent.components(separatedBy: .newlines))
         var lowestMapParcel: Int? = nil
         for seed in seeds {
-            print("Checking for seed \(seed)")
             var destinationSeed = seed
-            for (mapIndex, map) in maps.enumerated() {
-                print("\tMap \(mapIndex)")
+            for map in maps {
                 let sortedKeys = map.keys.sorted()
                 for key in sortedKeys {
                     if key > destinationSeed { break }
                     if key <= destinationSeed && (key + map[key]!.range - 1) >= destinationSeed {
-                        print("\t\tFound range between \(key) and \(key + map[key]!.range - 1)")
                         destinationSeed = map[key]!.destination + (destinationSeed - key)
                         break
                     }
                 }
-                print("\t-> destination seed is \(destinationSeed)")
             }
             if lowestMapParcel == nil { lowestMapParcel = destinationSeed }
             else if lowestMapParcel! > destinationSeed { lowestMapParcel = destinationSeed }
-            print("Lowest map parcel is \(lowestMapParcel!)")
         }
-        print("SEEDS: \(seeds)")
-        print("MAPS: \(maps)")
         return lowestMapParcel!
     }
     
