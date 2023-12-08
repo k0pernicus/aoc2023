@@ -38,3 +38,8 @@ func lcm(for values: [Int]) -> Int {
     }
     return currentLcm
 }
+
+extension Sequence where Element: Numeric {
+    /// Sum the elements of the Numeric array
+    func sum(start at: Int = 0) -> Element { return reduce(0, +) }
+}
