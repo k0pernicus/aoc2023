@@ -89,10 +89,7 @@ class Day08 : Day {
                     case 1:  entrypoints[index] = map[entrypoint]!.1
                     default: fatalError("cannot have more than 2 options")
                 }
-                if entrypoints[index].last == "Z" {
-                    disabled[index] = true
-                    matchingIndices[index] = currentLoop + 1
-                }
+                if entrypoints[index].last == "Z" { disabled[index] = true; matchingIndices[index] = currentLoop + 1}
             }
             currentLoop += 1
             if (disabled.filter { $0 == false }.count == 0) { break } // Stop once all the entrypoints have been processed
