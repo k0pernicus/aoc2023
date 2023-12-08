@@ -22,7 +22,7 @@ class Day08 : Day {
     
     init() {}
     
-    internal func parseMap(input: String) -> ([Direction], String, [String: (String, String)]) {
+    internal func parseMap(input: String) -> ([Direction], [String: (String, String)]) {
         var directions : [Direction]
         var map: [String: (String, String)] = [:]
         let lines = input.components(separatedBy: .newlines)
@@ -49,13 +49,13 @@ class Day08 : Day {
             assert(parsedChoices.count == 2)
             map[entrypoint] = (parsedChoices[0], parsedChoices[1])
         }
-        return (directions, INIT_ENTRYPOINT, map)
+        return (directions, map)
     }
     
     internal func part01(fromContent: String) throws -> Output01 {
-        let (directions, mapEntrypoing, map) = parseMap(input: fromContent)
+        let (directions, map) = parseMap(input: fromContent)
         let nbDirections: Int = directions.count
-        var currentPoint: String = mapEntrypoing
+        var currentPoint: String = INIT_ENTRYPOINT
         var points : Int = 0
         var currentLoopIndex: Int = 0
         while (FINAL_ENTRYPOINT != currentPoint) {
@@ -72,36 +72,9 @@ class Day08 : Day {
         return points
     }
     
-//    internal func part02(fromContent: String) throws -> Output02 {
-//        let (directions, _, map) = parseMap(input: fromContent)
-//        let nbDirections: Int = directions.count
-//        var points : Int = 0
-//        var currentLoopIndex: Int = 0
-//        
-//        var entrypoints: [String] = map.keys.filter { $0.last == "A" } // An entrypoing is a String that finished by "A"
-//        while true { // Yolo
-//            for (index, entrypoint) in entrypoints.enumerated() {
-//                let currentDirection: Int = directions[currentLoopIndex].rawValue
-//                var newEntrypoint: String = ""
-//                switch currentDirection {
-//                    case 0 : newEntrypoint = map[entrypoint]!.0
-//                    case 1:  newEntrypoint = map[entrypoint]!.1
-//                    default: fatalError("cannot have more than 2 options")
-//                }
-//                entrypoints[index] = newEntrypoint
-//            }
-//            currentLoopIndex += 1
-//            if currentLoopIndex == nbDirections { currentLoopIndex = 0 }
-//            points += 1
-//            if (entrypoints.filter { $0.last == "Z" }.count == entrypoints.count) { break } // Finish once all have 'Z' terminating char
-//        }
-//        return points
-//    }
-    
     internal func part02(fromContent: String) throws -> Output02 {
-        let (directions, _, map) = parseMap(input: fromContent)
+        let (directions, map) = parseMap(input: fromContent)
         let nbDirections: Int = directions.count
-        var currentLoopIndex: Int = 0
         var entrypoints: [String] = map.keys.filter { $0.last == "A" } // An entrypoing is a String that finished by "A"
         var matchingIndices : [Int] = [Int].init(repeating: 0, count: entrypoints.count)
         var currentLoop = 0
@@ -110,7 +83,7 @@ class Day08 : Day {
             if (entrypoints.isEmpty) { break }
             for (index, entrypoint) in entrypoints.enumerated() {
                 if (disabled[index]) { continue } // If we reached the end then no need to continue this one
-                let currentDirection: Int = directions[currentLoopIndex].rawValue
+                let currentDirection: Int = directions[currentLoop % nbDirections].rawValue
                 var newEntrypoint: String = ""
                 switch currentDirection {
                     case 0 : newEntrypoint = map[entrypoint]!.0
@@ -124,8 +97,6 @@ class Day08 : Day {
                 }
             }
             currentLoop += 1
-            currentLoopIndex += 1
-            if currentLoopIndex == nbDirections { currentLoopIndex = 0 }
             if (disabled.filter { $0 == false }.count == 0) { break } // Stop once all the entrypoints have been processed
         }
         
