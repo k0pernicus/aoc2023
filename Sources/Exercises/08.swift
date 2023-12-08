@@ -84,14 +84,12 @@ class Day08 : Day {
             for (index, entrypoint) in entrypoints.enumerated() {
                 if (disabled[index]) { continue } // If we reached the end then no need to continue this one
                 let currentDirection: Int = directions[currentLoop % nbDirections].rawValue
-                var newEntrypoint: String = ""
                 switch currentDirection {
-                    case 0 : newEntrypoint = map[entrypoint]!.0
-                    case 1:  newEntrypoint = map[entrypoint]!.1
+                    case 0 : entrypoints[index] = map[entrypoint]!.0
+                    case 1:  entrypoints[index] = map[entrypoint]!.1
                     default: fatalError("cannot have more than 2 options")
                 }
-                entrypoints[index] = newEntrypoint
-                if newEntrypoint.last == "Z" {
+                if entrypoints[index].last == "Z" {
                     disabled[index] = true
                     matchingIndices[index] = currentLoop + 1
                 }
