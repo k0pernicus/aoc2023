@@ -12,17 +12,22 @@ struct Coordinate: Hashable {
     let y: Int
 }
 
-func generatePossibleCoordinates(coordinate: Coordinate, maxHeight: Int, maxWidth: Int) -> [Coordinate] {
+func generatePossibleCoordinates(coordinate: Coordinate, 
+                                 maxHeight: Int,
+                                 maxWidth: Int,
+                                 includesDiagonals: Bool = true) -> [Coordinate] {
     var candidates: Set<Coordinate> = Set<Coordinate>()
     let (x, y) = (coordinate.x, coordinate.y)
     // SIDED
     candidates.insert(Coordinate(x: x > 0 ? x - 1 : x, y: y))
     candidates.insert(Coordinate(x: x < (maxWidth - 1) ? x + 1 : x, y: y))
-    // DIAGONALS
-    candidates.insert(Coordinate(x: x > 0 ? x - 1 : x, y: y > 0 ? y - 1 : y))
-    candidates.insert(Coordinate(x: x < (maxWidth - 1) ? x + 1 : x, y: y < (maxHeight - 1) ? y + 1 : y))
-    candidates.insert(Coordinate(x: x > 0 ? x - 1 : x, y: y < (maxHeight - 1) ? y + 1 : y))
-    candidates.insert(Coordinate(x: x < (maxWidth - 1) ? x + 1 : x, y: y > 0 ? y - 1 : y))
+    if (includesDiagonals) {
+        // DIAGONALS
+        candidates.insert(Coordinate(x: x > 0 ? x - 1 : x, y: y > 0 ? y - 1 : y))
+        candidates.insert(Coordinate(x: x < (maxWidth - 1) ? x + 1 : x, y: y < (maxHeight - 1) ? y + 1 : y))
+        candidates.insert(Coordinate(x: x > 0 ? x - 1 : x, y: y < (maxHeight - 1) ? y + 1 : y))
+        candidates.insert(Coordinate(x: x < (maxWidth - 1) ? x + 1 : x, y: y > 0 ? y - 1 : y))
+    }
     // UP AND DOWN
     candidates.insert(Coordinate(x: x, y: y < (maxHeight - 1) ? y + 1 : y))
     candidates.insert(Coordinate(x: x, y: y > 0 ? y - 1 : y))

@@ -91,3 +91,14 @@ final class D09Tests: XCTestCase, TestProtocol {
     func testPart01() { part01(filename: "\(day.tag)", expected_result: 114) }
     func testPart02() { part02(filename: "\(day.tag)", expected_result: 2) }
 }
+
+final class D10Tests: XCTestCase, TestProtocol {
+    var day: any Day = Day10()
+    typealias Output01 = Int
+    typealias Output02 = Int
+    func testPart0101() { part01(filename: "\(day.tag)_01", expected_result: 4) }
+    func testPart0102() { part01(filename: "\(day.tag)_02", expected_result: 8) }
+    func testPart0201() { part02(filename: "\(day.tag)_03", expected_result: 4) }
+    func testPart0202() { part02(filename: "\(day.tag)_04", expected_result: 8) }
+    func testPart0203() { part02(filename: "\(day.tag)_05", expected_result: 10) }
+}
