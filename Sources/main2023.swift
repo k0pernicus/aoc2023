@@ -35,6 +35,7 @@ struct Program: ParsableCommand {
             Day08(),
             Day09(),
             Day10(),
+            Day11()
         ]
         
         guard let filepath = inputFile else {
