@@ -25,28 +25,6 @@ class Day10 : Day {
         case south
         case west
     }
-
-    internal func matchPipeTile(at tile: Character, from: PipeDirection) -> Set<Character>? {
-        switch (tile, from) {
-        case (Self.START_POSITION, .north): return Set<Character>(["L", "J", "|"])
-        case (Self.START_POSITION, .south): return Set<Character>(["7", "F", "|"])
-        case (Self.START_POSITION, .east):  return Set<Character>(["L", "F", "-"])
-        case (Self.START_POSITION, .west):  return Set<Character>(["J", "7", "-"])
-        case ("|", .north):                 return Set<Character>(["L", "J", "|"])
-        case ("|", .south):                 return Set<Character>(["7", "F", "|"])
-        case ("-", .east):                  return Set<Character>(["L", "F", "-"])
-        case ("-", .west):                  return Set<Character>(["J", "7", "-"])
-        case ("L", .north):                 return Set<Character>(["J", "7", "-"])
-        case ("L", .east):                  return Set<Character>(["F", "7", "|"])
-        case ("J", .north):                 return Set<Character>(["F", "L", "-"])
-        case ("J", .west):                  return Set<Character>(["F", "7", "|"])
-        case ("7", .south):                 return Set<Character>(["F", "L", "-"])
-        case ("7", .west):                  return Set<Character>(["L", "J", "|"])
-        case ("F", .south):                 return Set<Character>(["J", "7", "-"])
-        case ("F", .east):                  return Set<Character>(["L", "J", "|"])
-        default:                            return nil
-        }
-    }
     
     internal func selectNewCoordinates(at tile: Character, from: PipeDirection) -> (Coordinate, PipeDirection)? {
         switch (tile, from) {
@@ -67,6 +45,27 @@ class Day10 : Day {
     }
     
     internal func isConnected(from: Character, fromDirection: PipeDirection, to: Character) -> Bool {
+        func matchPipeTile(at tile: Character, from: PipeDirection) -> Set<Character>? {
+            switch (tile, from) {
+            case (Self.START_POSITION, .north): return Set<Character>(["L", "J", "|"])
+            case (Self.START_POSITION, .south): return Set<Character>(["7", "F", "|"])
+            case (Self.START_POSITION, .east):  return Set<Character>(["L", "F", "-"])
+            case (Self.START_POSITION, .west):  return Set<Character>(["J", "7", "-"])
+            case ("|", .north):                 return Set<Character>(["L", "J", "|"])
+            case ("|", .south):                 return Set<Character>(["7", "F", "|"])
+            case ("-", .east):                  return Set<Character>(["L", "F", "-"])
+            case ("-", .west):                  return Set<Character>(["J", "7", "-"])
+            case ("L", .north):                 return Set<Character>(["J", "7", "-"])
+            case ("L", .east):                  return Set<Character>(["F", "7", "|"])
+            case ("J", .north):                 return Set<Character>(["F", "L", "-"])
+            case ("J", .west):                  return Set<Character>(["F", "7", "|"])
+            case ("7", .south):                 return Set<Character>(["F", "L", "-"])
+            case ("7", .west):                  return Set<Character>(["L", "J", "|"])
+            case ("F", .south):                 return Set<Character>(["J", "7", "-"])
+            case ("F", .east):                  return Set<Character>(["L", "J", "|"])
+            default:                            return nil
+            }
+        }
         let matchingPipes: Set<Character>? = matchPipeTile(at: from, from: fromDirection)
         if nil == matchingPipes { return false }
         return matchingPipes!.contains(to)
@@ -83,6 +82,7 @@ class Day10 : Day {
                 break
             }
         }
+        
         var toVisit: [(PipeDirection, Coordinate, Coordinate)] = []
         // START_POSITION found
         let start_x = initCoordinates!.x
@@ -151,14 +151,10 @@ class Day10 : Day {
             
             let cTile: Character = lines[visiting.y].characterAt(at: visiting.x)
             let coordinateToAdd: (Coordinate, PipeDirection)? = selectNewCoordinates(at: cTile, from: fromDirection)
-            if nil == coordinateToAdd {
-                continue
-            }
+            if nil == coordinateToAdd { continue }
             
             let (toAdd, fromNewDirection) = coordinateToAdd!
-        
-            let newCoordinate = Coordinate(x: visiting.x + toAdd.x, y: visiting.y + toAdd.y)
-            toVisit.append(( fromNewDirection, newCoordinate, visiting ))
+            toVisit.append(( fromNewDirection, Coordinate(x: visiting.x + toAdd.x, y: visiting.y + toAdd.y), visiting ))
         }
         
         var ans: Int = 0 // inside points
