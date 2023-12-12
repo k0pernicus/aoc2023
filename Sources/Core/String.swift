@@ -38,6 +38,11 @@ extension String {
         return self[symbolIndex]
     }
     
+    public mutating func replaceCharacter(at: Int, with: String) {
+        let indexValue = self.index(self.startIndex, offsetBy: at)
+        self.replaceSubrange(indexValue...indexValue, with: with)
+    }
+    
     public func index(from: Int) -> Index {
         return self.index(startIndex, offsetBy: from)
     }
