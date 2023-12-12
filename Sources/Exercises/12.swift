@@ -16,17 +16,6 @@ class Day12 : Day {
     
     init() {}
     
-    internal func countGroups(s: String) -> [Int] {
-        var groups: [Int] = []
-        var count = 0
-        for c in s {
-            if c == "." || c == "?" { if count == 0 { continue } else { groups.append(count); count = 0; continue; } }
-            else { count += 1 }
-        }
-        if count != 0 { groups.append(count) }
-        return groups
-    }
-    
     struct SearchCache: Hashable {
         let i: Int
         let j: Int
@@ -34,43 +23,63 @@ class Day12 : Day {
     }
     
     // Process with memoization
-    internal func deepSearch(i: Int, j: Int, countGroup: Int, record: String, groups: [Int], cache: inout [SearchCache: Int]) -> Int {
-        if let value = cache[SearchCache(i: i, j: j, countGroup: countGroup)] { // Found in map - return the memoized value
+    internal func deepSearch(recordIndex: Int, groupIndex: Int, countGroup: Int, record: String, groups: [Int], cache: inout [SearchCache: Int]) -> Int {
+        if let value = cache[SearchCache(i: recordIndex, j: groupIndex, countGroup: countGroup)] { // Found in map - return the memoized value
             return value
         }
-        if i == record.count { // Final character
-            if (j == (groups.count - 1) && groups[j] == countGroup) { // New alternative
-                cache[SearchCache(i: i, j: j, countGroup: countGroup)] = 1
+        if recordIndex == record.count { // Final character
+            if (groupIndex == (groups.count - 1) && groups[groupIndex] == countGroup) { // New alternative
+                cache[SearchCache(i: recordIndex, j: groupIndex, countGroup: countGroup)] = 1
                 return 1
             }
-            if (j == groups.count && countGroup == 0) { // New alternative
-                cache[SearchCache(i: i, j: j, countGroup: countGroup)] = 1
+            if (groupIndex == groups.count && countGroup == 0) { // New alternative
+                cache[SearchCache(i: recordIndex, j: groupIndex, countGroup: countGroup)] = 1
                 return 1
             }
             // Not an alternative
-            cache[SearchCache(i: i, j: j, countGroup: countGroup)] = 0
+            cache[SearchCache(i: recordIndex, j: groupIndex, countGroup: countGroup)] = 0
             return 0
         }
         var ans = 0
-        if Array(["#", "?"]).contains(record.characterAt(at: i)) {
+        // Each character can be "#" or "." -> "?" can have 2 values there, let explore the two options !
+        //
+        // Option A: Explore the fact that it can be a new group
+        if Array(["#", "?"]).contains(record.characterAt(at: recordIndex)) {
             // New group !
-            let count = deepSearch(i: i + 1, j: j, countGroup: countGroup + 1, record: record, groups: groups, cache: &cache)
-            cache[SearchCache(i: i + 1, j: j, countGroup: countGroup + 1)] = count
+            let count = deepSearch(recordIndex: recordIndex + 1, 
+                                   groupIndex: groupIndex,
+                                   countGroup: countGroup + 1,
+                                   record: record,
+                                   groups: groups,
+                                   cache: &cache)
+            cache[SearchCache(i: recordIndex + 1, j: groupIndex, countGroup: countGroup + 1)] = count
             ans += count
         }
-        if Array([".", "?"]).contains(record.characterAt(at: i)) {
+        // Option B: Explore the fact that it can be a no-group
+        if Array([".", "?"]).contains(record.characterAt(at: recordIndex)) {
             if countGroup == 0 {
-                let count = deepSearch(i: i+1, j: j, countGroup: 0, record: record, groups: groups, cache: &cache)
-                cache[SearchCache(i: i + 1, j: j, countGroup: 0)] = count
+                let count = deepSearch(recordIndex: recordIndex + 1, 
+                                       groupIndex: groupIndex,
+                                       countGroup: 0,
+                                       record: record,
+                                       groups: groups,
+                                       cache: &cache)
+                cache[SearchCache(i: recordIndex + 1, j: groupIndex, countGroup: 0)] = count
                 ans += count
             }
-            else if countGroup > 0 && j < groups.count && groups[j] == countGroup {
-                let count = deepSearch(i: i+1, j: j + 1, countGroup: 0, record: record, groups: groups, cache: &cache)
-                cache[SearchCache(i: i + 1, j: j + 1, countGroup: 0)] = count
+            else if countGroup > 0 && groupIndex < groups.count && groups[groupIndex] == countGroup {
+                let count = deepSearch(recordIndex: recordIndex + 1, 
+                                       groupIndex: groupIndex + 1,
+                                       countGroup: 0,
+                                       record: record,
+                                       groups: groups,
+                                       cache: &cache)
+                cache[SearchCache(i: recordIndex + 1, j: groupIndex + 1, countGroup: 0)] = count
                 ans += count
             }
         }
-        cache[SearchCache(i: i, j: j, countGroup: countGroup)] = ans
+        // Cache & return
+        cache[SearchCache(i: recordIndex, j: groupIndex, countGroup: countGroup)] = ans
         return ans
     }
     
@@ -92,7 +101,12 @@ class Day12 : Day {
                 .map({ Int($0)! })
             
             var cache: [SearchCache: Int] = [:]
-            let countTotalGoodCombinations: Int = deepSearch(i: 0, j: 0, countGroup: 0, record: record, groups: groupsToFind, cache: &cache)
+            let countTotalGoodCombinations: Int = deepSearch(recordIndex: 0,
+                                                             groupIndex: 0,
+                                                             countGroup: 0,
+                                                             record: record,
+                                                             groups: groupsToFind,
+                                                             cache: &cache)
             ans += countTotalGoodCombinations
         }
         
@@ -120,7 +134,12 @@ class Day12 : Day {
                 .map({ Int($0)! })
             
             var cache: [SearchCache: Int] = [:]
-            let countTotalGoodCombinations: Int = deepSearch(i: 0, j: 0, countGroup: 0, record: fiveRecord, groups: groupsToFind, cache: &cache)
+            let countTotalGoodCombinations: Int = deepSearch(recordIndex: 0,
+                                                             groupIndex: 0,
+                                                             countGroup: 0,
+                                                             record: fiveRecord,
+                                                             groups: groupsToFind,
+                                                             cache: &cache)
             ans += countTotalGoodCombinations
         }
         
