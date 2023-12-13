@@ -38,10 +38,8 @@ class Day13 : Day {
             if input[beg] != input[end] { if smudge == 0 || ((zip(input[beg], input[end]).filter { $0 != $1 }.count) > smudge) { return false } else { smudge -= 1 } }
             return propagateReflection(input: input,
                                             reflection: reflection,
-                                            beg: beg - 1,
-                                            end: end + 1,
-                                            height: height,
-                                            width: width,
+                                            beg: beg - 1, end: end + 1,
+                                            height: height, width: width,
                                             smudge: &smudge)
         case .vertical:
             for line in input {
@@ -50,10 +48,8 @@ class Day13 : Day {
             }
             return propagateReflection(input: input,
                                             reflection: reflection,
-                                            beg: beg - 1,
-                                            end: end + 1,
-                                            height: height,
-                                            width: width,
+                                            beg: beg - 1, end: end + 1,
+                                            height: height, width: width,
                                             smudge: &smudge)
         }
     }
@@ -71,8 +67,7 @@ class Day13 : Day {
             let okPropagation = propagateReflection(input: input,
                                                     reflection: .horizontal,
                                                     beg: y, end: y + 1,
-                                                    height: height,
-                                                    width: width,
+                                                    height: height, width: width,
                                                     smudge: &smudge)
             if okPropagation && smudge == 0 { return Mirror(reflection: .horizontal, index: y) }
         }
@@ -84,8 +79,7 @@ class Day13 : Day {
                 let okPropagation = propagateReflection(input: input,
                                                         reflection: .vertical,
                                                         beg: x, end: x + 1,
-                                                        height: height,
-                                                        width: width,
+                                                        height: height, width: width,
                                                         smudge: &smudge)
                 if okPropagation && smudge == 0 { return Mirror(reflection: .vertical, index: x) }
             }
