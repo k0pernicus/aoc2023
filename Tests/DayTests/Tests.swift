@@ -126,3 +126,19 @@ final class D13Tests: XCTestCase, TestProtocol {
     func testPart01() { part01(filename: "\(day.tag)", expected_result: 405) }
     func testPart02() { part02(filename: "\(day.tag)", expected_result: 400) }
 }
+
+final class D14Tests: XCTestCase, TestProtocol {
+    var day: any Day = Day14()
+    typealias Output01 = Int
+    typealias Output02 = Int
+    func testTranspose() {
+        let initialArray: [[Int]] = [[1,2,3], [4, 5], [6]]
+        var rotatedArray: [[Int]] = initialArray
+        for _ in 0..<4 {
+            rotatedArray = transpose(rotatedArray)
+        }
+        XCTAssert(initialArray == rotatedArray.map{ $0.filter{ $0 != 0 } })
+    }
+    func testPart01() { part01(filename: "\(day.tag)", expected_result: 136) }
+    func testPart02() { part02(filename: "\(day.tag)", expected_result: 64) }
+}
