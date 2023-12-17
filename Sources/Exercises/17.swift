@@ -60,20 +60,18 @@ class Day17 : Day {
             if visited.contains(visiting) { continue }
             visited.insert(visiting)
 
-            var toVisit: Set<Coordinate> = Set([
-                Coordinate(x: 0, y: 1),
-                Coordinate(x: 1, y: 0),
-                Coordinate(x: 0, y: -1),
-                Coordinate(x: -1, y: 0)])
-            toVisit = toVisit.subtracting(Set([ Coordinate(x: px, y: py), Coordinate(x: -px, y: -py) ]))
+            let toVisit: Set<Coordinate> = Set([Coordinate(x: 0, y: 1),
+                                                Coordinate(x: 1, y: 0),
+                                                Coordinate(x: 0, y: -1),
+                                                Coordinate(x: -1, y: 0)])
+                .subtracting(Set([ Coordinate(x: px, y: py), Coordinate(x: -px, y: -py) ]))
             
             for coordinate in toVisit {
                 let (dx, dy) = (coordinate.x, coordinate.y)
                 var newHeat = heat
                 var (newX, newY): (Int, Int) = (currentCoordinates.x, currentCoordinates.y)
                 for i in 1...mostMoves {
-                    newX += dx
-                    newY += dy
+                    newX += dx; newY += dy
                     
                     if !(newX >= 0 && newX < height && newY >= 0 && newY < width) { continue }
                     
