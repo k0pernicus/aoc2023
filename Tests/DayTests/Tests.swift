@@ -159,3 +159,11 @@ final class D16Tests: XCTestCase, TestProtocol {
     func testPart01() { part01(filename: "\(day.tag)", expected_result: 46) }
     func testPart02() { part02(filename: "\(day.tag)", expected_result: 51) }
 }
+
+final class D17Tests: XCTestCase, TestProtocol {
+    var day: any Day = Day17()
+    typealias Output01 = Int
+    typealias Output02 = Int
+    func testPart01() { part01(filename: "\(day.tag)", expected_result: 102) }
+    func testPart02() { part02(filename: "\(day.tag)", expected_result: 94) }
+}
