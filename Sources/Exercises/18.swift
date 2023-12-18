@@ -21,8 +21,7 @@ class Day18 : Day {
     internal func computeArea(coordinates: [Coordinate], perimeter: Int) -> Int {
         var ans = 0
         for i in 0..<coordinates.count - 1 {
-            ans += coordinates[i].x * coordinates[i+1].y
-            ans -= coordinates[i].y * coordinates[i+1].x
+            ans += (coordinates[i].x * coordinates[i+1].y) - (coordinates[i].y * coordinates[i+1].x)
         }
         ans += perimeter
         return (ans / 2) + 1
@@ -32,7 +31,7 @@ class Day18 : Day {
         let puzzle = fromContent.components(separatedBy: .newlines).filter({ !$0.isEmpty })
         var currentCoordinate: Coordinate = Coordinate(x: 0, y: 0)
         var allCoordinates: [Coordinate] = [currentCoordinate]
-        var ans: Int = 0 // Perimeter
+        var perimeter: Int = 0 // Perimeter
         for line in puzzle {
             let components: [String] = line.components(separatedBy: .whitespaces)
             assert(components.count == 3)
@@ -45,22 +44,22 @@ class Day18 : Day {
             default : fatalError("unknown direction \(direction)")
             }
             
-            ans += number
+            perimeter += number
             allCoordinates.append(currentCoordinate)
         }
         
-        return computeArea(coordinates: allCoordinates, perimeter: ans)
+        return computeArea(coordinates: allCoordinates, perimeter: perimeter)
     }
     
     internal func part02(fromContent: String) throws -> Output02 {
         let puzzle = fromContent.components(separatedBy: .newlines).filter({ !$0.isEmpty })
         var currentCoordinate: Coordinate = Coordinate(x: 0, y: 0)
         var allCoordinates: [Coordinate] = [currentCoordinate]
-        var ans: Int = 0 // Perimeter
+        var perimeter: Int = 0 // Perimeter
         for line in puzzle {
             let components: [String] = line.components(separatedBy: .whitespaces)
             assert(components.count == 3)
-            var encodedValue = components[2]
+            var encodedValue = components[2] // Only the last value is useful
             encodedValue.removeFirst() // Remove the '(' character
             encodedValue.removeFirst() // Remove the '#' character
             encodedValue.removeLast()  // Remove the ')' character
@@ -75,10 +74,10 @@ class Day18 : Day {
             default : fatalError("unknown direction...")
             }
             
-            ans += number
+            perimeter += number
             allCoordinates.append(currentCoordinate)
         }
         
-        return computeArea(coordinates: allCoordinates, perimeter: ans)
+        return computeArea(coordinates: allCoordinates, perimeter: perimeter)
     }
 }
