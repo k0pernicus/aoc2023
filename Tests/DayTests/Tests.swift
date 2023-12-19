@@ -181,5 +181,5 @@ final class D19Tests: XCTestCase, TestProtocol {
     typealias Output01 = Int
     typealias Output02 = Int
     func testPart01() { part01(filename: "\(day.tag)", expected_result: 19114) }
-    func testPart02() { part02(filename: "\(day.tag)", expected_result: 0) }
+    func testPart02() { part02(filename: "\(day.tag)", expected_result: 167409079868000) }
 }

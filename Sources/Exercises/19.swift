@@ -25,6 +25,14 @@ class Day19 : Day {
         case label(String)
         case rejected
         case accepted
+        
+        internal func toString() -> String {
+            switch self {
+            case .accepted : return "A"
+            case .rejected : return "R"
+            case let .label(label) : return label
+            }
+        }
     }
     
     enum Rule {
@@ -127,6 +135,46 @@ class Day19 : Day {
         return ans
     }
     
+    internal class ValidRange {
+        let name: String
+        var ranges: [String: ClosedRange<Int>]
+
+        init(name: String, ranges: [String : ClosedRange<Int>]) {
+            self.name = name
+            self.ranges = ranges
+        }
+
+        var matches: Int {
+            ranges.values.map { $0.upperBound - $0.lowerBound + 1 }.reduce(1, *)
+        }
+    }
+    
+    internal func solveWorkflow(workflows: [String: [Rule]], _ range: ValidRange) -> [ValidRange] {
+        guard let rules: [Rule] = workflows[range.name] else { return [] }
+        
+        var remainingRanges = range.ranges
+        var result : [ValidRange] = []
+        for rule in rules {
+            switch rule {
+            case let .alwaysTrue(then: then):
+                result.append(ValidRange(name: then.toString(), ranges: remainingRanges))
+            case let .condition(partName: prop, operation: ope, comparator: comp, then: then):
+                let range = remainingRanges[prop]!
+                let newRange: ValidRange = ValidRange(name: then.toString(), ranges: remainingRanges)
+                switch ope {
+                case .lowerThan:
+                    newRange.ranges[prop] = range.lowerBound ... comp - 1
+                    remainingRanges[prop] = comp ... range.upperBound
+                case .greaterThan:
+                    newRange.ranges[prop] = comp + 1 ... range.upperBound
+                    remainingRanges[prop] = range.lowerBound ... comp
+                }
+                result.append(newRange)
+            }
+        }
+        return result
+    }
+    
     internal func part02(fromContent: String) throws -> Output02 {
         let lines = fromContent.components(separatedBy: .newlines)
         
@@ -164,35 +212,21 @@ class Day19 : Day {
             }
         }
         
-        var ranges = [
-            Range<Int>(1...4000), // x
-            Range<Int>(1...4000), // m
-            Range<Int>(1...4000), // a
-            Range<Int>(1...4000)  // s
-        ]
-        
-        var workflowsToCheck: Set<String> = []
-        var visitedWorkflows: Set<String> = []
-        
-        // TODO
-        
-        for (name, rules) in workflows {
-            for rule in rules {
-                switch rule {
-                case let .alwaysTrue(then: then): if then == .accepted { workflowsToCheck.insert(name) }
-                case let .condition(partName: _, operation: _, comparator: _, then: then): if then == .accepted { workflowsToCheck.insert(name) }
-                }
-            }
+        let root = ValidRange(name: "in", ranges: [
+            "x": 1...4000,
+            "m": 1...4000,
+            "a": 1...4000,
+            "s": 1...4000
+        ])
+
+        var queue = [root]
+        var accepted = [ValidRange]()
+        while let range = queue.popLast() {
+            let splits = solveWorkflow(workflows: workflows, range)
+            accepted.append(contentsOf: splits.filter { $0.name == "A" }) // Only take the Accepted
+            queue.append(contentsOf: splits)
         }
-        
-        while !workflowsToCheck.isEmpty {
-            let workflow = workflowsToCheck.removeFirst()
-            if visitedWorkflows.contains(workflow) { continue }
-        }
-        
-        // Now, begin with ranges and add check on values to retrieve the other rules
-        
-        var ans: Int = 0
-        return ans
+
+        return accepted.map { $0.matches }.reduce(0, +)
     }
 }
