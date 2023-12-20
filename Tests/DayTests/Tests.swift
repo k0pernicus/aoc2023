@@ -183,3 +183,12 @@ final class D19Tests: XCTestCase, TestProtocol {
     func testPart01() { part01(filename: "\(day.tag)", expected_result: 19114) }
     func testPart02() { part02(filename: "\(day.tag)", expected_result: 167409079868000) }
 }
+
+final class D20Tests: XCTestCase, TestProtocol {
+    var day: any Day = Day20()
+    typealias Output01 = Int
+    typealias Output02 = Int
+    func testPart0101() { part01(filename: "\(day.tag)_01", expected_result: 32000000) }
+    func testPart0102() { part01(filename: "\(day.tag)_02", expected_result: 11687500) }
+    func testPart02() { part02(filename: "\(day.tag)_01", expected_result: 0) }
+}
