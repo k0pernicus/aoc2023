@@ -212,7 +212,6 @@ class Day20 : Day {
                         if newPulse == nil { continue }
                         for dest in circuit[moduleName]! {
                             if let _ = pulsePerModule[dest] { pulsePerModule[dest]![moduleName] = newPulse }
-                            if dest == "rx" && newPulse == .low { break }
                             propagationValues.append((dest, newPulse!))
                         }
                         break
