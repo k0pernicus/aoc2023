@@ -198,6 +198,6 @@ final class D21Tests: XCTestCase, TestProtocol {
     typealias Output01 = Int
     typealias Output02 = Int
     // Need to change 16 here !
-    func testPart01() { part01(filename: "\(day.tag)", expected_result: 16) }
-    func testPart02() { part02(filename: "\(day.tag)", expected_result: 0) }
+    func testPart01() { part01(filename: "\(day.tag)_01", expected_result: 42) }
+    // Can't test part 02 here - no additional input :(
 }

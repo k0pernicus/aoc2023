@@ -62,6 +62,60 @@ class Day21 : Day {
     }
     
     internal func part02(fromContent: String) throws -> Output02 {
+        let input = fromContent.components(separatedBy: .newlines).filter({ !$0.isEmpty })
+        var puzzle: [Coordinate: Character] = [:]
+        var startingPosition: Coordinate? = nil
+        for (y, line) in input.enumerated() {
+            for (x, tile) in line.enumerated() {
+                puzzle[Coordinate(x: x, y: y)] = tile
+                if tile == "S" { startingPosition = Coordinate(x: x, y: y) }
+            }
+        }
+        if startingPosition == nil { fatalError("No starting position, should not happen") }
+        let puzzleSize: Int = input.count // The puzzle is a square, should work for both height & width
+        
+        var positions: Set<Coordinate> = Set<Coordinate>([startingPosition!])
+        
+        // Thanks to AOC Reddit I understood that a solution could be to compute the quadratic progression
+        // of the puzzle input (oh god, that was hard to find...)
+        var quadraticFactor = 0
+        var quadraticProgressionResults: [Int] = [Int].init(repeating: 0, count: 3)
+        for step in 1...REMAINING_STEPS_MAIN_PART2 { // 1000 steps is good as we are running this on a 131x131 grid
+            var newPositions: Set<Coordinate> = Set<Coordinate>()
+            for position in positions {
+                let neighbors: [Coordinate] = [
+                    Coordinate(x: position.x - 1, y: position.y),
+                    Coordinate(x: position.x + 1, y: position.y),
+                    Coordinate(x: position.x, y: position.y - 1),
+                    Coordinate(x: position.x, y: position.y + 1),
+                ]
+                for neighbor in neighbors {
+                    let x = neighbor.x >= 0 ? neighbor.x : (puzzleSize + (neighbor.x % puzzleSize))
+                    let y = neighbor.y >= 0 ? neighbor.y : (puzzleSize + (neighbor.y % puzzleSize))
+                    if puzzle[Coordinate(x: x % puzzleSize, y: y % puzzleSize)] != "#" { newPositions.insert(neighbor); continue }
+                }
+            }
+            positions = newPositions
+            
+            if step == (puzzleSize / 2) + (puzzleSize * quadraticFactor) {
+                quadraticProgressionResults[quadraticFactor] = newPositions.count
+                quadraticFactor += 1
+                // Compute the next values (quadratic progression - only need the 3 first values)
+                if quadraticFactor == 3 {
+                    let fst_part = quadraticProgressionResults[0]
+                    let snd_part = quadraticProgressionResults[1] - quadraticProgressionResults[0]
+                    let trd_part = quadraticProgressionResults[2] - 2 * quadraticProgressionResults[1] + quadraticProgressionResults[0]
+                    
+                    let ratio: Int = REMAINING_STEPS_MAIN_PART2 / puzzleSize
+                    
+                    return fst_part + snd_part * ratio + trd_part * (ratio * (ratio - 1) / 2)
+                }
+                
+            }
+        }
+        
+        fatalError("Computation failed !")
+        
         return 0
     }
 }
