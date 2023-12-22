@@ -201,3 +201,11 @@ final class D21Tests: XCTestCase, TestProtocol {
     func testPart01() { part01(filename: "\(day.tag)_01", expected_result: 42) }
     // Can't test part 02 here - no additional input :(
 }
+
+final class D22Tests: XCTestCase, TestProtocol {
+    var day: any Day = Day22()
+    typealias Output01 = Int
+    typealias Output02 = Int
+    func testPart01() { part01(filename: "\(day.tag)", expected_result: 5) }
+    func testPart02() { part02(filename: "\(day.tag)", expected_result: 7) }
+}
