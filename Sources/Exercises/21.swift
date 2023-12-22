@@ -97,6 +97,7 @@ class Day21 : Day {
             }
             positions = newPositions
             
+            // reminder: puzzleSize / 2 is equals to the position of the Start!
             if step == (puzzleSize / 2) + (puzzleSize * quadraticFactor) {
                 quadraticProgressionResults[quadraticFactor] = newPositions.count
                 quadraticFactor += 1
