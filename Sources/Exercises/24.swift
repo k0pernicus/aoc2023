@@ -75,22 +75,15 @@ class Day24 : Day {
         for i in 0..<trajectories.count {
             for j in (i+1)..<trajectories.count {
                 
-                // print("Particles \(trajectories[i]) vs \(trajectories[j])")
-                
                 let coefA = trajectories[i].coef
                 let coefB = trajectories[j].coef
-                
-                // print("\(coefA) / \(coefB)")
                 
                 let intersectionX = intersection(coefA, coefB)
                 guard let intersectionX = intersectionX else { continue }
                 let intersectionY: Float = coefA.0 * intersectionX + coefA.1
                 
-                
-                // return (d - d0) / v
                 let tA: Float = (intersectionX - trajectories[i].x) / trajectories[i].velocityX
                 let tB: Float = (intersectionX - trajectories[j].x) / trajectories[j].velocityX
-                // print("\(tA) / \(tB)")
                 
                 if tA >= 0.0 && tB >= 0.0 && Float(minValue) <= intersectionX && intersectionX <= Float(maxValue) && Float(minValue) <= intersectionY && intersectionY <= Float(maxValue) {
                     ans += 1
