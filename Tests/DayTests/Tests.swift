@@ -225,3 +225,11 @@ final class D24Tests: XCTestCase, TestProtocol {
     func testPart01() { part01(filename: "\(day.tag)", expected_result: 2) }
     func testPart02() { part02(filename: "\(day.tag)", expected_result: 47) }
 }
+
+final class D25Tests: XCTestCase, TestProtocol {
+    var day: any Day = Day25()
+    typealias Output01 = Int
+    typealias Output02 = Int
+    func testPart01() { part01(filename: "\(day.tag)", expected_result: 54) }
+    func testPart02() { part02(filename: "\(day.tag)", expected_result: 0) }
+}

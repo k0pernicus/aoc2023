@@ -95,6 +95,31 @@ class Day24 : Day {
     }
     
     internal func part02(fromContent: String) throws -> Output02 {
+        let lines = fromContent.components(separatedBy: .newlines).filter({ !$0.isEmpty })
+        var trajectories: [Trajectory] = []
+        for line in lines {
+            let components: [String] = line.components(separatedBy: .init(charactersIn: "@"))
+                                           .map({ $0.trimmingCharacters(in: .whitespaces) })
+            assert(components.count == 2)
+            let (rawCoordinates, rawVelocities) = (components[0], components[1])
+            let coordinates = rawCoordinates.components(separatedBy: .whitespaces)
+                                            .map({ $0.trimmingCharacters(in: .init(charactersIn: ",")) })
+                                            .filter({ !$0.isEmpty })
+                                            .map({ Float($0)! })
+            let velocities = rawVelocities.components(separatedBy: .whitespaces)
+                                          .map({ $0.trimmingCharacters(in: .init(charactersIn: ",")) })
+                                          .filter({ !$0.isEmpty })
+                                          .map({ Float($0)! })
+            assert(coordinates.count == 3)
+            assert(velocities.count == 3)
+            trajectories.append(Trajectory(x: coordinates[0],
+                                           y: coordinates[1],
+                                           z: coordinates[2],
+                                           velocityX: velocities[0],
+                                           velocityY: velocities[1],
+                                           velocityZ: velocities[2]))
+        }
+        
         return 0
     }
 }
